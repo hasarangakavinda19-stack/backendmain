@@ -22,12 +22,16 @@ app.use(cors({
     
     const allowedOrigins = [
       "http://localhost:3000",
-      "https://fontendmain-x17k.vercel.app"
-    ];
+      "https://fontendmain-x17k.vercel.app",
+      process.env.FRONTEND_URL
+    ].filter(Boolean).map(o => o.trim().replace(/\/$/, ""));
 
-    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+    const normalizedOrigin = origin.trim().replace(/\/$/, "");
+
+    if (allowedOrigins.indexOf(normalizedOrigin) !== -1 || normalizedOrigin.endsWith(".vercel.app")) {
       callback(null, true);
     } else {
+      console.warn(`CORS blocked for origin: ${origin}`);
       callback(new Error("Not allowed by CORS"));
     }
   },
