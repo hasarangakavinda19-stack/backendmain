@@ -13,7 +13,18 @@ const reviewsRouter = require("./routes/reviews");
 const contactRouter = require("./routes/contact");
 
 const app = express();
-app.use(cors());
+
+// Configure CORS
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://fontendmain-x17k.vercel.app",
+    "https://fontendmain-x17k-git-main-hasarangakavinda19-stacks-projects.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(express.json());
 // Gemini Chat endpoint (must be after app is defined)
 app.post("/chat", chatController);
