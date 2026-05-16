@@ -136,7 +136,7 @@ router.post("/login", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Database error" });
+    res.status(500).json({ error: `Database error: ${err.message}` });
   }
 });
 
@@ -247,7 +247,7 @@ router.post("/signup", async (req, res) => {
         .status(400)
         .json({ error: "Email or NIC/Passport already exists" });
     }
-    res.status(500).json({ error: "Database error during signup" });
+    res.status(500).json({ error: `Database error during signup: ${err.message}` });
   }
 });
 
