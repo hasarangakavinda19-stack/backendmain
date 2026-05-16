@@ -16,11 +16,21 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://fontendmain-x17k.vercel.app",
-    "https://fontendmain-x17k-git-main-hasarangakavinda19-stacks-projects.vercel.app"
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "https://fontendmain-x17k.vercel.app"
+    ];
+
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
